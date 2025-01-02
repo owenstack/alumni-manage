@@ -4,6 +4,9 @@ import { SignupForm } from "@/components/auth/signup";
 import Background from "@/assets/images/background-image.webp";
 import Image from "next/image";
 import { ErrorCard } from "@/components/error-card";
+import { auth } from "@/lib/auth";
+import { headers } from "next/headers";
+import { redirect } from "next/navigation";
 
 export default async function Page({
 	searchParams,
@@ -11,6 +14,10 @@ export default async function Page({
 	const error = (await searchParams)?.error;
 	if (error) {
 		return <ErrorCard error={error} />;
+	}
+	const authz = await auth.api.getSession({ headers: await headers() });
+	if (authz?.user) {
+		redirect("/account");
 	}
 	return (
 		<div className="grid min-h-svh lg:grid-cols-2">

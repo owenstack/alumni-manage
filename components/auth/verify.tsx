@@ -21,7 +21,7 @@ export function VerifyEmail({ code }: { code?: string }) {
 	const { toast } = useToast();
 	const router = useRouter();
 	const auth = useSession();
-	if (!auth.data) {
+	if (!auth.data?.user) {
 		router.push("/log-in");
 		return null;
 	}

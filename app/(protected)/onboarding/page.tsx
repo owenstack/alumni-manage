@@ -5,8 +5,8 @@ import { redirect } from "next/navigation";
 export default async function Page() {
 	const authz = await auth.api.getSession({ headers: await headers() });
 	const onboarded = authz?.user.onboarded;
-	if (!onboarded) {
-		redirect("/onboarding");
+	if (onboarded) {
+		redirect("/account");
 	}
-	return <>This is your account page</>;
+	return <>Onboarding</>;
 }

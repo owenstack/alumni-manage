@@ -19,6 +19,7 @@ export function GoogleButton() {
 			await signIn.social(
 				{
 					provider: "google",
+					newUserCallbackURL: "/onboarding",
 				},
 				{
 					onError: (ctx) => {
@@ -55,7 +56,7 @@ export function GoogleButton() {
 			) : (
 				<span className="flex">
 					<Google className="mr-2 w-4 h-4" />
-					Login with Google
+					Continue with Google
 				</span>
 			)}
 		</Button>

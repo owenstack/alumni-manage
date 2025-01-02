@@ -2,6 +2,11 @@ import { GalleryVerticalEnd } from "lucide-react";
 import Link from "next/link";
 import { LoginForm } from "@/components/auth/login";
 import { ErrorCard } from "@/components/error-card";
+import AnimatedGridPattern from "@/components/ui/animated-grid-pattern";
+import { cn } from "@/lib/cn";
+import { redirect } from "next/navigation";
+import { auth } from "@/lib/auth";
+import { headers } from "next/headers";
 
 export default async function Page({
 	searchParams,
@@ -10,9 +15,14 @@ export default async function Page({
 	if (error) {
 		return <ErrorCard error={error} />;
 	}
+
+	const authz = await auth.api.getSession({ headers: await headers() });
+	if (authz?.user) {
+		redirect("/account");
+	}
 	return (
-		<div className="flex min-h-svh flex-col items-center justify-center gap-6 bg-muted p-6 md:p-10">
-			<div className="flex w-full max-w-sm flex-col gap-6">
+		<div className="relative flex min-h-svh flex-col items-center justify-center overflow-hidden gap-6 bg-muted p-6 md:p-10">
+			<div className="flex w-full max-w-sm flex-col gap-6 z-10">
 				<Link
 					href="/"
 					className="flex items-center gap-2 self-center font-medium"
@@ -24,6 +34,16 @@ export default async function Page({
 				</Link>
 				<LoginForm />
 			</div>
+			<AnimatedGridPattern
+				numSquares={30}
+				maxOpacity={0.1}
+				duration={3}
+				repeatDelay={1}
+				className={cn(
+					"[mask-image:radial-gradient(500px_circle_at_center,white,transparent)]",
+					"absolute inset-x-0 inset-y-[-30%] h-[200%] skew-y-12",
+				)}
+			/>
 		</div>
 	);
 }

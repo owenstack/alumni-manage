@@ -14,19 +14,28 @@ datasource db {
 }
 
 model User {
-  id            String    @id
-  name          String
-  email         String
-  emailVerified Boolean
-  image         String?
-  createdAt     DateTime
-  updatedAt     DateTime
-  role          String?
-  banned        Boolean?
-  banReason     String?
-  banExpires    DateTime?
-  sessions      Session[]
-  accounts      Account[]
+  id               String         @id
+  name             String
+  email            String
+  emailVerified    Boolean
+  image            String?
+  createdAt        DateTime
+  updatedAt        DateTime
+  role             String?
+  banned           Boolean?
+  banReason        String?
+  banExpires       DateTime?
+  sessions         Session[]
+  accounts         Account[]
+  notification     Notification[]
+  profile          Profile?
+  education        Education[]
+  employment       Employment[]
+  announcement     Announcement[]
+  sentMessages     Message[]      @relation("MessageSender")
+  receivedMessages Message[]      @relation("MessageRecipient")
+
+  onboarded Boolean @default(false)
 
   @@unique([email])
   @@map("user")
@@ -76,4 +85,139 @@ model Verification {
   updatedAt  DateTime?
 
   @@map("verification")
+}
+
+model Profile {
+  id           String          @id @default(cuid())
+  userId       String          @unique
+  user         User            @relation(fields: [userId], references: [id], onDelete: Cascade)
+  phone        String?
+  linkedinUrl  String?
+  location     String?
+  bio          String?         @db.Text
+  skills       String[]
+  interests    String[]
+  completeness Float           @default(0) // Profile completion percentage
+  lastActive   DateTime?
+  createdAt    DateTime        @default(now())
+  updatedAt    DateTime        @updatedAt
+  privacy      ProfilePrivacy?
+
+  @@map("profile")
+}
+
+model Education {
+  id             String   @id @default(cuid())
+  userId         String
+  user           User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  degree         String
+  fieldOfStudy   String
+  university     String
+  graduationYear Int
+  startYear      Int
+  endYear        Int
+  achievements   String[]
+  visibility     Boolean  @default(true)
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
+
+  @@map("education")
+}
+
+model Employment {
+  id          String    @id @default(cuid())
+  userId      String
+  user        User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  company     String
+  position    String
+  industry    String
+  location    String?
+  startDate   DateTime
+  endDate     DateTime?
+  isCurrent   Boolean   @default(false)
+  description String?   @db.Text
+  visibility  Boolean   @default(true)
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+
+  @@map("employment")
+}
+
+model Message {
+  id          String    @id @default(cuid())
+  content     String    @db.Text
+  senderId    String
+  sender      User      @relation("MessageSender", fields: [senderId], references: [id], onDelete: Cascade)
+  recipientId String
+  recipient   User      @relation("MessageRecipient", fields: [recipientId], references: [id], onDelete: Cascade)
+  read        Boolean   @default(false)
+  readAt      DateTime?
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+
+  @@map("message")
+}
+
+model Announcement {
+  id           String   @id @default(cuid())
+  title        String
+  content      String   @db.Text
+  authorId     String
+  author       User     @relation(fields: [authorId], references: [id], onDelete: Cascade)
+  visibility   String   @default("all") // all, alumni, specific-years
+  targetGroups String[] // Store target graduation years or groups
+  isPinned     Boolean  @default(false)
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+
+  @@map("announcement")
+}
+
+model Notification {
+  id        String           @id @default(cuid())
+  userId    String
+  user      User             @relation(fields: [userId], references: [id], onDelete: Cascade)
+  type      NotificationType
+  title     String
+  content   String
+  read      Boolean          @default(false)
+  readAt    DateTime?
+  actionUrl String? // Optional URL for notification action
+  createdAt DateTime         @default(now())
+
+  @@map("notification")
+}
+
+model ProfilePrivacy {
+  id                   String          @id @default(cuid())
+  profileId            String          @unique
+  profile              Profile         @relation(fields: [profileId], references: [id], onDelete: Cascade)
+  phoneVisibility      VisibilityLevel @default(PRIVATE)
+  linkedinVisibility   VisibilityLevel @default(PUBLIC)
+  locationVisibility   VisibilityLevel @default(ALUMNI_ONLY)
+  bioVisibility        VisibilityLevel @default(PUBLIC)
+  educationVisibility  VisibilityLevel @default(ALUMNI_ONLY)
+  employmentVisibility VisibilityLevel @default(ALUMNI_ONLY)
+  skillsVisibility     VisibilityLevel @default(ALUMNI_ONLY)
+  interestsVisibility  VisibilityLevel @default(ALUMNI_ONLY)
+  // Global visibility preferences
+  defaultVisibility    VisibilityLevel @default(ALUMNI_ONLY) // For new fields/items
+  searchable           Boolean         @default(true) // Allow profile to be searchable
+
+  @@map("profile_privacy")
+}
+
+// Enum types for better type safety
+
+enum VisibilityLevel {
+  PUBLIC
+  ALUMNI_ONLY
+  PRIVATE
+}
+
+enum NotificationType {
+  MESSAGE
+  ANNOUNCEMENT
+  SYSTEM
+  PROFILE_VIEW
 }

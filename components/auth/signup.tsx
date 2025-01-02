@@ -1,6 +1,6 @@
 "use client";
 
-import { cn } from "@/lib/utils";
+import { cn } from "@/lib/cn";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -58,7 +58,7 @@ export function SignupForm({ className }: { className?: string }) {
 							variant: "destructive",
 						});
 					},
-					onSuccess: () => router.push("/verify-email"),
+					onSuccess: () => router.push("/onboarding"),
 				},
 			);
 		} catch (error) {

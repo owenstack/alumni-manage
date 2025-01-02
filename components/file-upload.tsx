@@ -1,6 +1,6 @@
 "use client";
 
-import { cn } from "@/lib/utils";
+import { cn } from "@/lib/cn";
 import { UploadCloud } from "lucide-react";
 import type { ChangeEvent } from "react";
 import { useCallback, useState } from "react";
