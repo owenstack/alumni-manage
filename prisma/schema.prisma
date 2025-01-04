@@ -35,7 +35,8 @@ model User {
   sentMessages     Message[]      @relation("MessageSender")
   receivedMessages Message[]      @relation("MessageRecipient")
 
-  onboarded Boolean @default(false)
+  onboarded    Boolean @default(false) // Flag to track onboarding
+  completeness Int     @default(25) // Profile completeness percentage
 
   @@unique([email])
   @@map("user")
@@ -88,38 +89,36 @@ model Verification {
 }
 
 model Profile {
-  id           String          @id @default(cuid())
-  userId       String          @unique
-  user         User            @relation(fields: [userId], references: [id], onDelete: Cascade)
-  phone        String?
-  linkedinUrl  String?
-  location     String?
-  bio          String?         @db.Text
-  skills       String[]
-  interests    String[]
-  completeness Float           @default(0) // Profile completion percentage
-  lastActive   DateTime?
-  createdAt    DateTime        @default(now())
-  updatedAt    DateTime        @updatedAt
-  privacy      ProfilePrivacy?
+  id          String          @id @default(cuid())
+  userId      String          @unique
+  user        User            @relation(fields: [userId], references: [id], onDelete: Cascade)
+  phone       String?
+  linkedinUrl String?
+  location    String?
+  bio         String?         @db.Text
+  skills      String[]
+  interests   String[]
+  lastActive  DateTime?
+  createdAt   DateTime        @default(now())
+  updatedAt   DateTime        @updatedAt
+  privacy     ProfilePrivacy?
 
   @@map("profile")
 }
 
 model Education {
-  id             String   @id @default(cuid())
-  userId         String
-  user           User     @relation(fields: [userId], references: [id], onDelete: Cascade)
-  degree         String
-  fieldOfStudy   String
-  university     String
-  graduationYear Int
-  startYear      Int
-  endYear        Int
-  achievements   String[]
-  visibility     Boolean  @default(true)
-  createdAt      DateTime @default(now())
-  updatedAt      DateTime @updatedAt
+  id           String   @id @default(cuid())
+  userId       String
+  user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  degree       String
+  fieldOfStudy String
+  university   String
+  startYear    Int
+  endYear      Int
+  achievements String[]
+  visibility   Boolean  @default(true)
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
 
   @@map("education")
 }
@@ -134,7 +133,7 @@ model Employment {
   location    String?
   startDate   DateTime
   endDate     DateTime?
-  isCurrent   Boolean   @default(false)
+  isCurrent   Boolean   @default(true)
   description String?   @db.Text
   visibility  Boolean   @default(true)
   createdAt   DateTime  @default(now())

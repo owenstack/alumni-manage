@@ -17,6 +17,11 @@ export const auth = betterAuth({
 				required: true,
 				defaultValue: false,
 			},
+			completeness: {
+				type: "number",
+				required: true,
+				defaultValue: 25,
+			},
 		},
 	},
 	emailAndPassword: {
