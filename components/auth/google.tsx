@@ -4,9 +4,9 @@ import Google from "@/assets/icons/google";
 import { useToast } from "@/hooks/use-toast";
 import { signIn } from "@/lib/auth.client";
 import { Loader } from "lucide-react";
+import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { Button } from "../ui/button";
-import { useRouter } from "next/navigation";
 
 export function GoogleButton() {
 	const { toast } = useToast();
@@ -29,7 +29,7 @@ export function GoogleButton() {
 							variant: "destructive",
 						});
 					},
-					onSuccess: () => router.push("/account"),
+					onSuccess: () => router.push("/profile"),
 				},
 			);
 		} catch (error) {

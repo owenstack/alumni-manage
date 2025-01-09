@@ -62,7 +62,7 @@ export function ForgotPassword() {
 							title: "Success",
 							description: "Password changed successfully",
 						});
-						router.push("/account");
+						router.push("/profile");
 					},
 					onError: (ctx) => {
 						toast({

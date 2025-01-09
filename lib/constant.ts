@@ -1,3 +1,10 @@
+import {
+	House,
+	type LucideIcon,
+	Settings,
+	UserRound,
+	UsersRound,
+} from "lucide-react";
 import { z } from "zod";
 
 export const profileSchema = z.object({
@@ -52,3 +59,32 @@ export const employmentSchema = z.object({
 	isCurrent: z.boolean().default(true),
 	description: z.string().optional(),
 });
+
+interface NavLinks {
+	name: string;
+	href: string;
+	icon: LucideIcon;
+}
+
+export const navLinks: NavLinks[] = [
+	{
+		name: "Home",
+		href: "/",
+		icon: House,
+	},
+	{
+		name: "Profile",
+		href: "/profile",
+		icon: UserRound,
+	},
+	{
+		name: "Network",
+		href: "/network",
+		icon: UsersRound,
+	},
+	{
+		name: "Settings",
+		href: "/settings",
+		icon: Settings,
+	},
+];

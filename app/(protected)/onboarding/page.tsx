@@ -1,18 +1,21 @@
-import { auth } from "@/lib/auth";
-import { headers } from "next/headers";
-import { redirect } from "next/navigation";
+import { EducationForm } from "@/components/onboarding/education-form";
+import { EmploymentForm } from "@/components/onboarding/employment-form";
+import { Profile } from "@/components/onboarding/profile";
+import { ProfileForm } from "@/components/onboarding/profile-form";
+import AnimatedGridPattern from "@/components/ui/animated-grid-pattern";
+import { Button } from "@/components/ui/button";
 import {
 	Card,
-	CardHeader,
-	CardTitle,
 	CardContent,
 	CardDescription,
+	CardHeader,
+	CardTitle,
 } from "@/components/ui/card";
+import { auth } from "@/lib/auth";
 import { cn } from "@/lib/cn";
-import { ProfileForm } from "@/components/onboarding/profile";
-import { EducationForm } from "@/components/onboarding/education";
-import { EmploymentForm } from "@/components/onboarding/employment";
-import AnimatedGridPattern from "@/components/ui/animated-grid-pattern";
+import { headers } from "next/headers";
+import Link from "next/link";
+import { redirect } from "next/navigation";
 
 export default async function Page({
 	searchParams,
@@ -32,18 +35,19 @@ export default async function Page({
 		} else if (completed <= 75) {
 			redirect("/onboarding?step=3");
 		} else {
-			redirect("/account");
+			redirect("/profile");
 		}
 	}
 
-	// Prevent accessing later steps
+	// Prevent accessing later or earlier steps
 	const allowedStep = Math.ceil(completed / 25);
-	if (step > allowedStep) {
+	if (step > allowedStep || step < allowedStep) {
 		redirect(`/onboarding?step=${allowedStep}`);
 	}
 
 	return (
 		<div className="relative h-screen flex items-center justify-center p-8">
+			{step !== 1 && <Profile className="absolute top-10 right-2" />}
 			<Card className="relative w-full max-w-md shadow-lg z-10">
 				<div className="pt-16">
 					<Card className="w-[60%] max-w-md absolute -top-12 left-1/2 -translate-x-1/2">
@@ -75,10 +79,26 @@ export default async function Page({
 							</div>
 						</CardContent>
 					</Card>
-					<CardContent className="mt-14">
-						{step === 1 && <ProfileForm />}
-						{step === 2 && <EducationForm />}
-						{step === 3 && <EmploymentForm />}
+					<CardContent className="mt-20">
+						{step === 1 ? (
+							<ProfileForm key={step} />
+						) : step === 2 ? (
+							<EducationForm key={step} />
+						) : step === 3 ? (
+							<EmploymentForm key={step} />
+						) : (
+							<div className="grid gap-4">
+								<h2 className="text-center">Onboarding Completed</h2>
+								<div className="flex items-center justify-between gap-4">
+									<Button>
+										<Link href={"/"}>Go home &larr;</Link>
+									</Button>
+									<Button>
+										<Link href={"/profile"}>Dashboard &rarr;</Link>
+									</Button>
+								</div>
+							</div>
+						)}
 					</CardContent>
 				</div>
 			</Card>

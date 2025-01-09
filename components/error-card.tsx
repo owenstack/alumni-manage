@@ -1,15 +1,17 @@
+import { Logo } from "./logo";
 import {
 	Card,
+	CardContent,
+	CardDescription,
 	CardHeader,
 	CardTitle,
-	CardDescription,
-	CardContent,
 } from "./ui/card";
 
 export function ErrorCard({ error }: { error: string }) {
 	return (
 		<div className="flex flex-col items-center justify-center gap-4 h-screen">
 			<Card>
+				<Logo />
 				<CardHeader className="text-destructive">
 					<CardTitle>Something went wrong</CardTitle>
 					<CardDescription>Error: {error}</CardDescription>

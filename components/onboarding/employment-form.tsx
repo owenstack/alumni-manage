@@ -1,24 +1,24 @@
 "use client";
 
-import { Form, FormField } from "../ui/form";
-import type { employmentSchema } from "@/lib/constant";
-import { useToast } from "@/hooks/use-toast";
-import { useForm } from "react-hook-form";
-import { useState } from "react";
-import { Submit } from "../submit";
 import { submitEmployment } from "@/actions/onboarding";
-import { Input } from "../ui/input";
-import type { z } from "zod";
-import { Textarea } from "../ui/textarea";
-import { Button } from "../ui/button";
-import BlurFade from "../ui/blur-fade";
-import { useRouter } from "next/navigation";
-import { Calendar } from "../ui/calendar";
-import { Calendar as CalendarIcon } from "lucide-react";
-import { Popover, PopoverContent, PopoverTrigger } from "../ui/popover";
+import { useToast } from "@/hooks/use-toast";
 import { cn } from "@/lib/cn";
+import type { employmentSchema } from "@/lib/constant";
 import { format } from "date-fns";
+import { Calendar as CalendarIcon } from "lucide-react";
+import { useRouter } from "next/navigation";
+import { useState } from "react";
+import { useForm } from "react-hook-form";
+import type { z } from "zod";
+import { Submit } from "../submit";
+import BlurFade from "../ui/blur-fade";
+import { Button } from "../ui/button";
+import { Calendar } from "../ui/calendar";
+import { Form, FormField } from "../ui/form";
+import { Input } from "../ui/input";
+import { Popover, PopoverContent, PopoverTrigger } from "../ui/popover";
 import { Switch } from "../ui/switch";
+import { Textarea } from "../ui/textarea";
 
 export function EmploymentForm() {
 	const { toast } = useToast();
@@ -48,7 +48,7 @@ export function EmploymentForm() {
 				return;
 			}
 			toast({ title: "Success", description: message });
-			router.push("/account");
+			router.push("/profile");
 		} catch (error) {
 			console.error(error);
 			toast({
@@ -115,68 +115,18 @@ export function EmploymentForm() {
 							/>
 						)}
 					/>
-					<FormField
-						name="startDate"
-						render={({ field }) => (
-							<Popover>
-								<PopoverTrigger asChild>
-									<Button
-										variant={"outline"}
-										className={cn(
-											"w-[240px] pl-3 text-left font-normal",
-											!field.value && "text-muted-foreground",
-										)}
-									>
-										{field.value ? (
-											format(field.value, "PPP")
-										) : (
-											<span>Pick a date</span>
-										)}
-										<CalendarIcon className="ml-auto h-4 w-4 opacity-50" />
-									</Button>
-								</PopoverTrigger>
-								<PopoverContent className="w-auto p-0" align="start">
-									<Calendar
-										mode="single"
-										selected={field.value}
-										onSelect={field.onChange}
-										disabled={(date) =>
-											date > new Date() || date < new Date("1900-01-01")
-										}
-										initialFocus
-									/>
-								</PopoverContent>
-							</Popover>
-						)}
-					/>
-					<FormField
-						name="isCurrent"
-						label="Current employment?"
-						className="flex flex-row-reverse items-center lg:items-baseline gap-4 justify-center"
-						render={({ field }) => (
-							<div className="flex items-center gap-2">
-								<span>No</span>
-								<Switch
-									checked={field.value}
-									onCheckedChange={(value) => {
-										field.onChange(value);
-										setCurrent(value);
-									}}
-								/>
-								<span>Yes</span>
-							</div>
-						)}
-					/>
-					{!current && (
+					<div className="flex items-center justify-between gap-2">
 						<FormField
-							name="endDate"
+							name="startDate"
+							label="Start Date"
+							className="grid gap-2"
 							render={({ field }) => (
 								<Popover>
 									<PopoverTrigger asChild>
 										<Button
 											variant={"outline"}
 											className={cn(
-												"w-[240px] pl-3 text-left font-normal",
+												"w-full pl-3 text-left font-normal",
 												!field.value && "text-muted-foreground",
 											)}
 										>
@@ -197,6 +147,64 @@ export function EmploymentForm() {
 												date > new Date() || date < new Date("1900-01-01")
 											}
 											initialFocus
+											className="rounded-md border shadow-md"
+										/>
+									</PopoverContent>
+								</Popover>
+							)}
+						/>
+						<FormField
+							name="isCurrent"
+							label="Current job?"
+							className="grid gap-2"
+							render={({ field }) => (
+								<div className="flex items-center gap-2">
+									<span>No</span>
+									<Switch
+										checked={field.value}
+										onCheckedChange={(value) => {
+											field.onChange(value);
+											setCurrent(value);
+										}}
+									/>
+									<span>Yes</span>
+								</div>
+							)}
+						/>
+					</div>
+					{!current && (
+						<FormField
+							name="endDate"
+							label="End Date"
+							className="grid gap-2"
+							render={({ field }) => (
+								<Popover>
+									<PopoverTrigger asChild>
+										<Button
+											variant={"outline"}
+											className={cn(
+												"w-full md:w-[240px] pl-3 text-left font-normal",
+												!field.value && "text-muted-foreground",
+											)}
+										>
+											{field.value ? (
+												format(field.value, "PPP")
+											) : (
+												<span>Pick a date</span>
+											)}
+											<CalendarIcon className="ml-auto h-4 w-4 opacity-50" />
+										</Button>
+									</PopoverTrigger>
+									<PopoverContent className="w-auto p-0" align="start">
+										<Calendar
+											mode="single"
+											selected={field.value}
+											onSelect={field.onChange}
+											disabled={(date) =>
+												date > new Date() || date < new Date("1900-01-01")
+											}
+											initialFocus
+											className="rounded-md border shadow-md"
 										/>
 									</PopoverContent>
 								</Popover>

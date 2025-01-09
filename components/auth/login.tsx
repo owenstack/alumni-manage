@@ -1,6 +1,5 @@
 "use client";
 
-import { cn } from "@/lib/cn";
 import {
 	Card,
 	CardContent,
@@ -10,13 +9,14 @@ import {
 } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import Link from "next/link";
-import Form from "next/form";
-import { Submit } from "../submit";
-import { GoogleButton } from "./google";
 import { useToast } from "@/hooks/use-toast";
 import { signIn } from "@/lib/auth.client";
+import { cn } from "@/lib/cn";
+import Form from "next/form";
+import Link from "next/link";
 import { useRouter } from "next/navigation";
+import { Submit } from "../submit";
+import { GoogleButton } from "./google";
 
 export function LoginForm({ className }: { className?: string }) {
 	const { toast } = useToast();
@@ -38,7 +38,7 @@ export function LoginForm({ className }: { className?: string }) {
 							variant: "destructive",
 						});
 					},
-					onSuccess: () => router.push("/account"),
+					onSuccess: () => router.push("/profile"),
 				},
 			);
 		} catch (error) {

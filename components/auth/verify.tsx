@@ -26,7 +26,7 @@ export function VerifyEmail({ code }: { code?: string }) {
 		return null;
 	}
 	if (auth.data.user.emailVerified === true) {
-		router.push("/account");
+		router.push("/profile");
 		return null;
 	}
 	const submit = async (form: FormData) => {
@@ -36,7 +36,7 @@ export function VerifyEmail({ code }: { code?: string }) {
 			await emailOtp.verifyEmail(
 				{ email, otp },
 				{
-					onSuccess: () => router.push("/account"),
+					onSuccess: () => router.push("/profile"),
 					onError: (ctx) => {
 						toast({
 							title: "Error",

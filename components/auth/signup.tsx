@@ -1,17 +1,17 @@
 "use client";
 
-import { cn } from "@/lib/cn";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import Form from "next/form";
-import { GoogleButton } from "./google";
-import { useState } from "react";
-import { Eye, EyeOff } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import { signUp } from "@/lib/auth.client";
-import { Submit } from "../submit";
+import { cn } from "@/lib/cn";
+import { Eye, EyeOff } from "lucide-react";
+import Form from "next/form";
 import { useRouter } from "next/navigation";
+import { useState } from "react";
+import { Submit } from "../submit";
+import { GoogleButton } from "./google";
 
 export function SignupForm({ className }: { className?: string }) {
 	const [showPassword, setShowPassword] = useState(false);

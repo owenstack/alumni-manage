@@ -1,27 +1,27 @@
 "use client";
 
-import { Form, FormField } from "../ui/form";
+import { submitEducation } from "@/actions/onboarding";
 import { useToast } from "@/hooks/use-toast";
+import type { educationSchema } from "@/lib/constant";
+import { Plus } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import type { z } from "zod";
-import type { educationSchema } from "@/lib/constant";
+import { Submit } from "../submit";
+import BlurFade from "../ui/blur-fade";
 import { Button } from "../ui/button";
+import { Form, FormField } from "../ui/form";
 import { Input } from "../ui/input";
 import { Label } from "../ui/label";
-import { submitEducation } from "@/actions/onboarding";
-import BlurFade from "../ui/blur-fade";
 import {
 	Select,
 	SelectContent,
 	SelectGroup,
-	SelectTrigger,
 	SelectItem,
+	SelectTrigger,
 	SelectValue,
 } from "../ui/select";
-import { Plus } from "lucide-react";
-import { Submit } from "../submit";
 
 export function EducationForm() {
 	const { toast } = useToast();
@@ -168,18 +168,56 @@ export function EducationForm() {
 							<Input {...field} placeholder="University of Nigeria, Nsukka" />
 						)}
 					/>
-					<div className="flex items-center justify-between">
+					<div className="flex items-center justify-between gap-4 ">
 						<FormField
 							name="startYear"
-							label="Start year"
-							className="grid gap-2"
-							render={({ field }) => <Input type="date" {...field} />}
+							label="Start Year"
+							className="w-full"
+							render={({ field }) => (
+								<Input
+									type="number"
+									min={1900}
+									max={new Date().getFullYear()}
+									{...field}
+									onChange={(e) => {
+										const value = Number.parseInt(e.target.value);
+										if (value > form.getValues("endYear")) {
+											toast({
+												title: "Invalid year",
+												description: "Start year cannot be after end year",
+												variant: "destructive",
+											});
+											return;
+										}
+										field.onChange(value);
+									}}
+								/>
+							)}
 						/>
 						<FormField
 							name="endYear"
 							label="End Year"
-							className="grid gap-2"
-							render={({ field }) => <Input type="date" {...field} />}
+							className="w-full"
+							render={({ field }) => (
+								<Input
+									type="number"
+									min={form.getValues("startYear")}
+									max={new Date().getFullYear()}
+									{...field}
+									onChange={(e) => {
+										const value = Number.parseInt(e.target.value);
+										if (value < form.getValues("startYear")) {
+											toast({
+												title: "Invalid year",
+												description: "End year cannot be before start year",
+												variant: "destructive",
+											});
+											return;
+										}
+										field.onChange(value);
+									}}
+								/>
+							)}
 						/>
 					</div>
 					<div className="grid gap-2">
@@ -196,6 +234,7 @@ export function EducationForm() {
 						<ul className="flex flex-col gap-2">
 							{achievements?.map((a) => (
 								<Button
+									className="self-start whitespace-break-spaces"
 									variant={"link"}
 									key={a}
 									onClick={() => {

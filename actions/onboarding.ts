@@ -1,14 +1,14 @@
 "use server";
 
-import prisma from "@/lib/db";
 import { auth } from "@/lib/auth";
-import type { z } from "zod";
-import { headers } from "next/headers";
 import {
 	educationSchema,
 	employmentSchema,
 	profileSchema,
 } from "@/lib/constant";
+import prisma from "@/lib/db";
+import { headers } from "next/headers";
+import type { z } from "zod";
 
 export async function submitProfile(values: z.infer<typeof profileSchema>) {
 	try {
@@ -22,6 +22,7 @@ export async function submitProfile(values: z.infer<typeof profileSchema>) {
 		if (!profile) return { error: "Failed to create profile" };
 		const { status } = await auth.api.updateUser({
 			body: { completeness: 50 },
+			headers: await headers(),
 		});
 		if (!status) return { error: "Failed to update completeness" };
 		return { success: true, message: "Profile created successfully" };
@@ -32,7 +33,6 @@ export async function submitProfile(values: z.infer<typeof profileSchema>) {
 		};
 	}
 }
-
 export async function submitEducation(values: z.infer<typeof educationSchema>) {
 	try {
 		const authz = await auth.api.getSession({ headers: await headers() });
@@ -45,6 +45,7 @@ export async function submitEducation(values: z.infer<typeof educationSchema>) {
 		if (!education) return { error: "Failed to create education" };
 		const { status } = await auth.api.updateUser({
 			body: { completeness: 75 },
+			headers: await headers(),
 		});
 		if (!status) return { error: "Failed to update completeness" };
 		return { success: true, message: "Education added successfully" };
@@ -69,7 +70,8 @@ export async function submitEmployment(
 		});
 		if (!employment) return { error: "Failed to create employment" };
 		const { status } = await auth.api.updateUser({
-			body: { completeness: 100 },
+			body: { completeness: 100, onboarding: true },
+			headers: await headers(),
 		});
 		if (!status) return { error: "Failed to update completeness" };
 		return { success: true, message: "Employment added successfully" };
