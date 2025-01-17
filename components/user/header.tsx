@@ -10,12 +10,13 @@ import { Logo } from "../logo";
 import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
 import { Button, buttonVariants } from "../ui/button";
 import { Tooltip, TooltipContent, TooltipTrigger } from "../ui/tooltip";
+import { NavSheet } from "./nav-sheet";
 
 export function Header() {
 	const pathname = usePathname();
 	const { data } = useSession();
 	return (
-		<header className="flex items-center justify-between top-0 sticky gap-2 md:gap-4 px-4 py-2 border-b">
+		<header className="flex items-center justify-between top-0 sticky gap-2 md:gap-4 px-4 py-2 border-b z-10 backdrop-blur-sm">
 			<Logo />
 			<div className="flex gap-4">
 				<nav className="flex gap-2">
@@ -29,23 +30,6 @@ export function Header() {
 									{name}
 								</Link>
 							</Button>
-						))}
-					</div>
-					<div className="flex md:hidden gap-1">
-						{navLinks.map(({ name, href, icon: Icon }) => (
-							<Tooltip key={name}>
-								<TooltipTrigger
-									className={buttonVariants({
-										variant: pathname === href ? "outline" : "secondary",
-										size: "icon",
-									})}
-								>
-									<Link href={href}>
-										<Icon />
-									</Link>
-								</TooltipTrigger>
-								<TooltipContent>{name}</TooltipContent>
-							</Tooltip>
 						))}
 					</div>
 					<div className="flex gap-1">
@@ -77,10 +61,13 @@ export function Header() {
 						</Tooltip>
 					</div>
 				</nav>
-				<Avatar>
+				<Avatar className="hidden md:block cursor-pointer hover:opacity-80 transition-opacity">
 					<AvatarImage src={data?.user.image ?? ""} />
-					<AvatarFallback>{data?.user.name.charAt(0)}</AvatarFallback>
+					<AvatarFallback className="bg-primary text-primary-foreground">
+						{data?.user.name.charAt(0)}
+					</AvatarFallback>
 				</Avatar>
+				<NavSheet />
 			</div>
 		</header>
 	);

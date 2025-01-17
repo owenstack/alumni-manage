@@ -20,12 +20,12 @@ export function VerifyEmail({ code }: { code?: string }) {
 	const [otp, setOtp] = useState(code);
 	const { toast } = useToast();
 	const router = useRouter();
-	const auth = useSession();
-	if (!auth.data?.user) {
+	const { data } = useSession();
+	if (!data?.user) {
 		router.push("/log-in");
 		return null;
 	}
-	if (auth.data.user.emailVerified === true) {
+	if (data.user.emailVerified === true) {
 		router.push("/profile");
 		return null;
 	}
@@ -102,7 +102,7 @@ export function VerifyEmail({ code }: { code?: string }) {
 								autoComplete="email"
 								name="email"
 								id="email"
-								value={auth.data.user.email}
+								value={data.user.email}
 								readOnly
 								required
 							/>
@@ -128,7 +128,7 @@ export function VerifyEmail({ code }: { code?: string }) {
 								id="email"
 								type="email"
 								name="email"
-								value={auth.data.user.email}
+								value={data.user.email}
 								readOnly
 								required
 							/>

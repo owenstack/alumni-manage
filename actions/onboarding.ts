@@ -20,6 +20,7 @@ export async function submitProfile(values: z.infer<typeof profileSchema>) {
 			data: { ...data, userId: authz.user.id },
 		});
 		if (!profile) return { error: "Failed to create profile" };
+		await prisma.profilePrivacy.create({ data: { profileId: profile.id } });
 		const { status } = await auth.api.updateUser({
 			body: { completeness: 50 },
 			headers: await headers(),

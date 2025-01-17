@@ -16,7 +16,7 @@ import { Input } from "../ui/input";
 import { Label } from "../ui/label";
 
 export function ForgotPassword() {
-	const auth = useSession();
+	const { data } = useSession();
 	const { toast } = useToast();
 	const router = useRouter();
 	const sendMail = async (form: FormData) => {
@@ -89,7 +89,7 @@ export function ForgotPassword() {
 				<CardDescription>Reset your password to continue</CardDescription>
 			</CardHeader>
 			<CardContent>
-				{auth.data?.user ? (
+				{data?.user ? (
 					<form action={reset} className="grid gap-4">
 						<div className="grid gap-1">
 							<Label htmlFor="password">New password</Label>

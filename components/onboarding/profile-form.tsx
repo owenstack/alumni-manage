@@ -19,7 +19,7 @@ import { Label } from "../ui/label";
 import { Textarea } from "../ui/textarea";
 
 export function ProfileForm() {
-	const auth = useSession();
+	const { data } = useSession();
 	const { toast } = useToast();
 	const [skill, setSkill] = useState("");
 	const [skills, setSkills] = useState<string[]>();
@@ -34,7 +34,7 @@ export function ProfileForm() {
 			bio: "",
 			skills: skills,
 			interests: interests,
-			lastActive: auth?.data?.session?.updatedAt,
+			lastActive: data?.session?.updatedAt,
 		},
 	});
 	const handleSkillsAdd = (e: React.MouseEvent) => {

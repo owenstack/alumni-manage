@@ -1,4 +1,4 @@
-import { Header } from "@/components/profile/header";
+import { Header } from "@/components/user/header";
 
 export default function UserLayout({
 	children,
