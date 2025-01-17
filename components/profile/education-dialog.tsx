@@ -1,24 +1,24 @@
 "use client";
 
+import type { Education } from "@prisma/client";
+import { PenLine } from "lucide-react";
+import { useState } from "react";
+import { Button } from "../ui/button";
+import {
+	Card,
+	CardContent,
+	CardDescription,
+	CardHeader,
+	CardTitle,
+} from "../ui/card";
 import {
 	Dialog,
 	DialogContent,
+	DialogDescription,
 	DialogHeader,
 	DialogTitle,
 	DialogTrigger,
-	DialogDescription,
 } from "../ui/dialog";
-import { Button } from "../ui/button";
-import { useState } from "react";
-import { PenLine } from "lucide-react";
-import type { Education } from "@prisma/client";
-import {
-	Card,
-	CardHeader,
-	CardContent,
-	CardDescription,
-	CardTitle,
-} from "../ui/card";
 import { UpdateEducation } from "./update-education";
 
 export function EducationDialog({ education }: { education: Education[] }) {

@@ -1,7 +1,7 @@
 "use client";
 
+import LinkedIn from "@/assets/icons/linkedin";
 import type { ProfilePrivacy, VisibilityLevel } from "@prisma/client";
-import { buttonVariants } from "../ui/button";
 import {
 	BookMarked,
 	BriefcaseBusiness,
@@ -10,7 +10,7 @@ import {
 	SquareAsterisk,
 	Text,
 } from "lucide-react";
-import LinkedIn from "@/assets/icons/linkedin";
+import { buttonVariants } from "../ui/button";
 import { Button } from "../ui/button";
 import { EnumDropdown } from "./enum-dropdown";
 

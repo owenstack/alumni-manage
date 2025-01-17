@@ -1,21 +1,21 @@
 "use client";
 
+import { updatePrivacy } from "@/actions/profile";
+import { useToast } from "@/hooks/use-toast";
+import type { ProfilePrivacy, VisibilityLevel } from "@prisma/client";
+import { Loader } from "lucide-react";
+import { useRouter } from "next/navigation";
+import { useState } from "react";
+import { Button } from "../ui/button";
 import {
 	DropdownMenu,
+	DropdownMenuContent,
 	DropdownMenuGroup,
 	DropdownMenuItem,
 	DropdownMenuLabel,
 	DropdownMenuSeparator,
 	DropdownMenuTrigger,
-	DropdownMenuContent,
 } from "../ui/dropdown-menu";
-import type { ProfilePrivacy, VisibilityLevel } from "@prisma/client";
-import { Button } from "../ui/button";
-import { useRouter } from "next/navigation";
-import { useState } from "react";
-import { Loader } from "lucide-react";
-import { useToast } from "@/hooks/use-toast";
-import { updatePrivacy } from "@/actions/profile";
 
 export function EnumDropdown({
 	field,

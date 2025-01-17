@@ -1,28 +1,28 @@
 "use client";
 
+import { useSession } from "@/lib/auth.client";
 import type {
 	Education,
-	Profile,
 	Employment,
+	Profile,
 	ProfilePrivacy,
 } from "@prisma/client";
-import { useSession } from "@/lib/auth.client";
-import { Progress } from "../ui/progress";
 import { Button } from "../ui/button";
 import {
 	Card,
-	CardHeader,
 	CardContent,
-	CardTitle,
 	CardDescription,
+	CardHeader,
+	CardTitle,
 } from "../ui/card";
-import { InterestDialog } from "./interest-dialog";
-import { SkillDialog } from "./skills-dialog";
+import { Progress } from "../ui/progress";
 import { EducationDialog } from "./education-dialog";
 import { EmploymentDialog } from "./employment-dialog";
+import { InterestDialog } from "./interest-dialog";
+import { Privacy } from "./privacy";
+import { SkillDialog } from "./skills-dialog";
 import { UpdatePhoto } from "./update-photo";
 import { UpdateProfile } from "./update-profile";
-import { Privacy } from "./privacy";
 
 interface FeatureCards {
 	title: string;

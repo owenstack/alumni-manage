@@ -1,7 +1,11 @@
 "use client";
 
+import { updateEducation } from "@/actions/profile";
 import { useToast } from "@/hooks/use-toast";
+import { useSession } from "@/lib/auth.client";
+import type { Education } from "@prisma/client";
 import { Plus } from "lucide-react";
+import { nanoid } from "nanoid";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
@@ -19,10 +23,6 @@ import {
 	SelectTrigger,
 	SelectValue,
 } from "../ui/select";
-import type { Education } from "@prisma/client";
-import { updateEducation } from "@/actions/profile";
-import { useSession } from "@/lib/auth.client";
-import { nanoid } from "nanoid";
 
 export function UpdateEducation({ education }: { education?: Education }) {
 	const { data } = useSession();

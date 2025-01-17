@@ -1,12 +1,12 @@
 "use client";
 
+import { useToast } from "@/hooks/use-toast";
+import { updateUser, useSession } from "@/lib/auth.client";
 import { FileUp, User } from "lucide-react";
+import { useState } from "react";
 import { FileUpload } from "../file-upload";
 import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
 import { Button } from "../ui/button";
-import { useSession, updateUser } from "@/lib/auth.client";
-import { useToast } from "@/hooks/use-toast";
-import { useState } from "react";
 
 export function UpdatePhoto() {
 	const { data } = useSession();

@@ -1,25 +1,25 @@
 "use client";
 
+import { updateEmployment } from "@/actions/profile";
 import { useToast } from "@/hooks/use-toast";
+import { useSession } from "@/lib/auth.client";
+import { cn } from "@/lib/cn";
+import type { Employment } from "@prisma/client";
+import { format } from "date-fns";
 import { CalendarIcon } from "lucide-react";
+import { nanoid } from "nanoid";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { Submit } from "../submit";
 import BlurFade from "../ui/blur-fade";
 import { Button } from "../ui/button";
+import { Calendar } from "../ui/calendar";
 import { Form, FormField } from "../ui/form";
 import { Input } from "../ui/input";
-import type { Employment } from "@prisma/client";
-import { updateEmployment } from "@/actions/profile";
 import { Popover, PopoverContent, PopoverTrigger } from "../ui/popover";
-import { cn } from "@/lib/cn";
 import { Switch } from "../ui/switch";
-import { format } from "date-fns";
 import { Textarea } from "../ui/textarea";
-import { Calendar } from "../ui/calendar";
-import { useSession } from "@/lib/auth.client";
-import { nanoid } from "nanoid";
 
 export function UpdateEmployment({ employment }: { employment?: Employment }) {
 	const { data } = useSession();

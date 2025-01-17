@@ -1,23 +1,23 @@
 "use client";
 
+import { updateInterests } from "@/actions/profile";
+import { useToast } from "@/hooks/use-toast";
+import { Plus } from "lucide-react";
 import Form from "next/form";
-import { Input } from "../ui/input";
-import { Label } from "../ui/label";
+import { useState } from "react";
+import { Submit } from "../submit";
+import { Badge } from "../ui/badge";
+import { Button } from "../ui/button";
 import {
 	Dialog,
 	DialogContent,
+	DialogDescription,
 	DialogHeader,
 	DialogTitle,
 	DialogTrigger,
-	DialogDescription,
 } from "../ui/dialog";
-import { Button } from "../ui/button";
-import { Submit } from "../submit";
-import { useState } from "react";
-import { Badge } from "../ui/badge";
-import { Plus } from "lucide-react";
-import { updateInterests } from "@/actions/profile";
-import { useToast } from "@/hooks/use-toast";
+import { Input } from "../ui/input";
+import { Label } from "../ui/label";
 
 export function InterestDialog({ interests }: { interests?: string[] }) {
 	const { toast } = useToast();

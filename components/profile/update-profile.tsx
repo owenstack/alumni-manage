@@ -1,7 +1,9 @@
 "use client";
 
+import { updateProfile } from "@/actions/profile";
 import { useToast } from "@/hooks/use-toast";
 import { useSession } from "@/lib/auth.client";
+import type { Profile } from "@prisma/client";
 import { Plus } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
@@ -13,8 +15,6 @@ import { Form, FormField } from "../ui/form";
 import { Input } from "../ui/input";
 import { Label } from "../ui/label";
 import { Textarea } from "../ui/textarea";
-import type { Profile } from "@prisma/client";
-import { updateProfile } from "@/actions/profile";
 
 export function UpdateProfile({ profile }: { profile: Profile }) {
 	const { data } = useSession();

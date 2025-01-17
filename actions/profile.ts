@@ -1,7 +1,7 @@
 "use server";
 
 import { auth } from "@/lib/auth";
-import { headers } from "next/headers";
+import { educationSchema, employmentSchema } from "@/lib/constant";
 import prisma from "@/lib/db";
 import type {
 	Education,
@@ -10,9 +10,9 @@ import type {
 	ProfilePrivacy,
 	VisibilityLevel,
 } from "@prisma/client";
-import { submitEducation, submitEmployment } from "./onboarding";
-import { educationSchema, employmentSchema } from "@/lib/constant";
 import { revalidatePath } from "next/cache";
+import { headers } from "next/headers";
+import { submitEducation, submitEmployment } from "./onboarding";
 
 export async function updateInterests(interests: string[]) {
 	try {

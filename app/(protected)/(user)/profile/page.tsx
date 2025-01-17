@@ -1,8 +1,8 @@
+import ProfileMain from "@/components/profile/main";
 import { auth } from "@/lib/auth";
+import prisma from "@/lib/db";
 import { headers } from "next/headers";
 import { redirect } from "next/navigation";
-import prisma from "@/lib/db";
-import ProfileMain from "@/components/profile/main";
 
 export default async function Page() {
 	const authz = await auth.api.getSession({ headers: await headers() });

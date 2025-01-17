@@ -1,5 +1,11 @@
 "use client";
 
+import { useSession } from "@/lib/auth.client";
+import { navLinks } from "@/lib/constant";
+import Link from "next/link";
+import { usePathname } from "next/navigation";
+import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
+import { Button } from "../ui/button";
 import {
 	Sheet,
 	SheetContent,
@@ -7,12 +13,6 @@ import {
 	SheetTitle,
 	SheetTrigger,
 } from "../ui/sheet";
-import { usePathname } from "next/navigation";
-import { navLinks } from "@/lib/constant";
-import { useSession } from "@/lib/auth.client";
-import { Button } from "../ui/button";
-import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
-import Link from "next/link";
 
 export function NavSheet() {
 	const { data } = useSession();
