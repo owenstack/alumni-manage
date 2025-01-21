@@ -1,3 +1,4 @@
+import type { User } from "@prisma/client";
 import {
 	House,
 	type LucideIcon,
@@ -88,3 +89,36 @@ export const navLinks: NavLinks[] = [
 		icon: Settings,
 	},
 ];
+
+interface Viewer {
+	id: string;
+	emailVerified?: boolean | null;
+	connections: {
+		id: string;
+	}[];
+}
+export function shouldShowField(
+	viewer: Viewer,
+	userId: string,
+	visibility: "PUBLIC" | "ALUMNI_ONLY" | "PRIVATE",
+): boolean {
+	if (visibility === "PUBLIC") return true;
+	if (!viewer) return false;
+	if (visibility === "PRIVATE") return viewer.id === userId;
+	if (visibility === "ALUMNI_ONLY") {
+		return (
+			viewer.emailVerified === true &&
+			viewer.connections.some((c) => c.id === userId)
+		);
+	}
+	return false;
+}
+
+export interface UserPreview {
+	id: string;
+	name: string;
+	email: string;
+	image: string | null;
+	linkedinUrl?: string | null;
+	bio?: string | null;
+}

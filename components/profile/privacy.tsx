@@ -11,12 +11,11 @@ import {
 	Text,
 } from "lucide-react";
 import { buttonVariants } from "../ui/button";
-import { Button } from "../ui/button";
 import { EnumDropdown } from "./enum-dropdown";
 
 const privacyEnum = (value: VisibilityLevel) => {
 	return value === "ALUMNI_ONLY"
-		? "Visible to alumni only"
+		? "Visible to connections"
 		: value === "PRIVATE"
 			? "Visible to only you"
 			: "Visible to everyone";

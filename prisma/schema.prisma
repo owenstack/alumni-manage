@@ -35,11 +35,32 @@ model User {
   sentMessages     Message[]      @relation("MessageSender")
   receivedMessages Message[]      @relation("MessageRecipient")
 
+  // Connection related fields
+  connections      User[]              @relation("UserConnections")
+  connectedTo      User[]              @relation("UserConnections")
+  sentRequests     ConnectionRequest[] @relation("SentConnectionRequests")
+  receivedRequests ConnectionRequest[] @relation("ReceivedConnectionRequests")
+
   onboarded    Boolean @default(false) // Flag to track onboarding
   completeness Int     @default(25) // Profile completeness percentage
 
   @@unique([email])
+  @@index([name])
   @@map("user")
+}
+
+model ConnectionRequest {
+  id          String                  @id @default(cuid())
+  senderId    String
+  sender      User                    @relation("SentConnectionRequests", fields: [senderId], references: [id], onDelete: Cascade)
+  recipientId String
+  recipient   User                    @relation("ReceivedConnectionRequests", fields: [recipientId], references: [id], onDelete: Cascade)
+  status      ConnectionRequestStatus @default(PENDING)
+  createdAt   DateTime                @default(now())
+  updatedAt   DateTime                @updatedAt
+
+  @@unique([senderId, recipientId])
+  @@map("connection_request")
 }
 
 model Session {
@@ -103,6 +124,7 @@ model Profile {
   updatedAt   DateTime        @updatedAt
   privacy     ProfilePrivacy?
 
+  @@index([location])
   @@map("profile")
 }
 
@@ -219,4 +241,11 @@ enum NotificationType {
   ANNOUNCEMENT
   SYSTEM
   PROFILE_VIEW
+  CONNECTION_REQUEST
+}
+
+enum ConnectionRequestStatus {
+  PENDING
+  ACCEPTED
+  REJECTED
 }
