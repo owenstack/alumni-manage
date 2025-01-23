@@ -45,7 +45,7 @@ export function Pagination({
 	}, [page, totalPages]);
 
 	return (
-		<div className="flex items-center gap-2 justify-evenly w-fit bottom-4 absolute left-1/2 transform -translate-x-1/2">
+		<div className="flex items-center gap-2 justify-evenly w-fit fixed bottom-4 left-1/2 transform -translate-x-1/2 z-10">
 			<Button
 				size={"icon"}
 				variant={"outline"}

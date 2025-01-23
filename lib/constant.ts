@@ -1,4 +1,4 @@
-import type { User } from "@prisma/client";
+import type { Education, Employment, User } from "@prisma/client";
 import {
 	House,
 	type LucideIcon,
@@ -121,4 +121,12 @@ export interface UserPreview {
 	image: string | null;
 	linkedinUrl?: string | null;
 	bio?: string | null;
+}
+
+export interface UserDetail extends UserPreview {
+	location?: string | null;
+	skills?: string[] | null;
+	interests?: string[] | null;
+	education: Education[] | null;
+	employment: Employment[] | null;
 }
