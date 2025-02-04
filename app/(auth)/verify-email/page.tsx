@@ -24,6 +24,6 @@ export default async function Page({
 					"absolute inset-x-0 top-1/2 -translate-y-1/2 h-[200%]",
 				)}
 			/>
-		</profile>
+		</main>
 	);
 }
